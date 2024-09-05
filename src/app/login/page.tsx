@@ -63,6 +63,7 @@ export default function LoginPage() {
           </div>
           <div
             className={`bg-white px-8 py-2 rounded-full ${playFairDisplay.className} text-[#EE3617] italic inline-flex ml-64 hover:bg-[#EE3617] hover:text-white transition-all duration-300 ease-in-out`}
+          onClick={() => router.push("/onlyfans")}
           >
             continue with onlyfans
           </div>
