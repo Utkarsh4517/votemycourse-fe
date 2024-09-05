@@ -1,7 +1,9 @@
-"use client";
+'use client';
 import { vinaSans, playFairDisplay } from "./layout";
+import { useRouter } from "next/navigation";
 
 export default function LandingPage() {
+  const router = useRouter();
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#EE3617]">
       <div className="bg-white w-[1100px] h-[650px] rounded-[40px] shadow-lg flex flex-col items-center justify-center space-y-4">
@@ -19,11 +21,16 @@ export default function LandingPage() {
           <span>Course</span>
         </div>
         <div className="h-8"></div>
-        <div className="bg-[#EE3617] px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out">
-  <div className={`${playFairDisplay.className} italic text-white hover:text-[#EE3617]`}>
-    get started
-  </div>
-</div>
+        <div
+          className="bg-[#EE3617] px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out"
+          onClick={() => router.push("/login")}
+        >
+          <div
+            className={`${playFairDisplay.className} italic text-white hover:text-[#EE3617]`}
+          >
+            get started
+          </div>
+        </div>
       </div>
     </div>
   );
