@@ -1,9 +1,11 @@
 "use client";
-import { vinaSans, playFairDisplay, baseUrl } from "../layout";
 import quote from "../../assets/quote.svg";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
+import { playFairDisplayFont, vinaSansFont } from "../fonts/fonts";
+import { baseUrl } from "../constants/exports";
+import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -34,24 +36,24 @@ export default function LoginPage() {
       <div className="flex-row flex">
         <div className="bg-white w-[600px] h-[650px] rounded-[40px] shadow-lg flex flex-col justify-center space-y-4 ml-24 pl-12">
           <div>
-            <img src={quote.src} alt="Quote" />
+            <Image src={quote.src} alt="Quote" />
           </div>
           <div
-            className={`text-[#EE3617] italic text-[35px] ${playFairDisplay.className} max-w-md`}
+            className={`text-[#EE3617] italic text-[35px] ${playFairDisplayFont} max-w-md`}
           >
             In a world full of people leaving there 9 to 5 to sell courses to
-            young students, it's difficult to find the perfect one.
+            young students, it&apos;s difficult to find the perfect one.
           </div>
           <div className="h-10"></div>
           <div className="bg-[#EE3617] px-8 py-2 rounded-full ml-48 mr-6">
-            <div className={`${playFairDisplay.className} italic text-white`}>
-              It’s high time to show’em some levels.....
+            <div className={`${playFairDisplayFont} italic text-white`}>
+              It&apos;s high time to show&apos;em some levels.....
             </div>
           </div>
         </div>
         <div>
           <div
-            className={`text-white text-[180px] ${vinaSans.className} text-center leading-negative ml-32`}
+            className={`text-white text-[180px] ${vinaSansFont} text-center leading-negative ml-32`}
           >
             <span>Vote My</span>
             <br />
@@ -64,7 +66,7 @@ export default function LoginPage() {
             />
           </div>
           <div
-            className={`bg-white px-8 py-2 rounded-full ${playFairDisplay.className} text-[#EE3617] italic inline-flex ml-64 hover:bg-[#EE3617] hover:text-white transition-all duration-300 ease-in-out`}
+            className={`bg-white px-8 py-2 rounded-full ${playFairDisplayFont} text-[#EE3617] italic inline-flex ml-64 hover:bg-[#EE3617] hover:text-white transition-all duration-300 ease-in-out`}
           onClick={() => router.push("/onlyfans")}
           >
             continue with onlyfans

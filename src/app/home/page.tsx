@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { baseUrl } from '../layout';
+import { baseUrl } from '../constants/exports';
 
 interface User {
   userId: number;

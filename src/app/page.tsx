@@ -1,6 +1,6 @@
 'use client';
-import { vinaSans, playFairDisplay } from "./layout";
 import { useRouter } from "next/navigation";
+import { playFairDisplayFont, vinaSansFont } from "./fonts/fonts";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -8,13 +8,13 @@ export default function LandingPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#EE3617]">
       <div className="bg-white w-[1100px] h-[650px] rounded-[40px] shadow-lg flex flex-col items-center justify-center space-y-4">
         <div
-          className={`text-[#EE3617] italic text-[30px] ${playFairDisplay.className} text-center`}
+          className={`text-[#EE3617] italic text-[30px] ${playFairDisplayFont} text-center`}
         >
           Think before you pay them.
         </div>
 
         <div
-          className={`text-[#EE3617] text-[180px] ${vinaSans.className} text-center leading-negative`}
+          className={`text-[#EE3617] text-[180px] ${vinaSansFont} text-center leading-negative`}
         >
           <span>Vote My</span>
           <br />
@@ -26,7 +26,7 @@ export default function LandingPage() {
           onClick={() => router.push("/login")}
         >
           <div
-            className={`${playFairDisplay.className} italic text-white hover:text-[#EE3617]`}
+            className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617]`}
           >
             get started
           </div>
