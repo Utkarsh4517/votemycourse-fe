@@ -39,7 +39,7 @@ jobs:
           npm run build || { echo "NPM build failed"; exit 1; }
           
           echo "Restarting the application using PM2..."
-          pm2 restart votemycourse-fe || { echo "PM2 restart failed"; exit 1; }
+          pm2 restart nextjs || { echo "PM2 restart failed"; exit 1; }
           
           echo "Deployment steps completed."
         EOF
