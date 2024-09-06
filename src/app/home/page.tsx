@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { baseUrl } from '../layout';
 
 interface User {
   userId: number;
@@ -41,9 +42,10 @@ function Home() {
     setError(null);
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.get('http://localhost:8080/api/courses/all', {
+      const response = await axios.get(`${baseUrl}/api/courses/all`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      console.log('Courses:', response.data);
       setCourses(response.data);
     } catch (error) {
       console.error('Error fetching courses:', error);

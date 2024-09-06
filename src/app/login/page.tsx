@@ -1,5 +1,5 @@
 "use client";
-import { vinaSans, playFairDisplay } from "../layout";
+import { vinaSans, playFairDisplay, baseUrl } from "../layout";
 import quote from "../../assets/quote.svg";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
@@ -12,7 +12,7 @@ export default function LoginPage() {
     console.log("Google credential response:", credentialResponse);
     try {
       const response = await axios.post(
-        "http://localhost:8080/auth/google/callback",
+        `${baseUrl}/auth/google/callback`,
         { idToken: credentialResponse.credential },
         { headers: { "Content-Type": "application/json" } }
       );

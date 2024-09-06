@@ -10,6 +10,7 @@ const playFairDisplay = Playfair_Display({
   style: ['normal', 'italic'],
 });
 const google = process.env.GOOGLE_CLIENT_ID || '';
+const baseUrl = process.env.BASE_URL || '';
 
 export default function RootLayout({
   children,
@@ -24,4 +25,4 @@ export default function RootLayout({
     </html>
   );
 }
-export {vinaSans, playFairDisplay};
+export {vinaSans, playFairDisplay, baseUrl};
