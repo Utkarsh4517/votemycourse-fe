@@ -18,15 +18,36 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.DIGITALOCEAN_VOTEMYCOURSE_FRONTEND_PRIVATE_SHA }}
 
+    - name: Start Deployment Process
+      run: echo "Starting deployment process..."
+
     - name: Deploy to Droplet
       run: |
+        echo "Connecting to Droplet..."
         ssh -o StrictHostKeyChecking=no root@159.89.170.30 << 'EOF'
-          cd votemycourse-fe
-          git pull origin main
-          npm install
-          npm run build
-          pm2 restart votemycourse-fe
+          echo "Connected to Droplet."
+          echo "Navigating to votemycourse-fe directory..."
+          cd votemycourse-fe || { echo "Failed to navigate to votemycourse-fe directory"; exit 1; }
+          
+          echo "Pulling latest changes from main branch..."
+          git pull origin main || { echo "Git pull failed"; exit 1; }
+          
+          echo "Installing dependencies..."
+          npm install || { echo "NPM install failed"; exit 1; }
+          
+          echo "Building the project..."
+          npm run build || { echo "NPM build failed"; exit 1; }
+          
+          echo "Restarting the application using PM2..."
+          pm2 restart votemycourse-fe || { echo "PM2 restart failed"; exit 1; }
+          
+          echo "Deployment steps completed."
         EOF
 
     - name: Notify deployment success
+      if: success()
       run: echo "Deployment to Droplet was successful!"
+
+    - name: Notify deployment failure
+      if: failure()
+      run: echo "Deployment to Droplet failed. Check previous logs for details."
