@@ -40,6 +40,7 @@ function Home() {
   const fetchCourses = async () => {
     setLoading(true);
     setError(null);
+    
     const token = localStorage.getItem('token');
     try {
       const response = await axios.get(`${baseUrl}/api/courses/all`, {
