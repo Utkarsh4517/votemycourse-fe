@@ -1,0 +1,32 @@
+name: Deploy VoteMyCourse Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.DIGITALOCEAN_VOTEMYCOURSE_FRONTEND_PRIVATE_SHA }}
+
+    - name: Deploy to Droplet
+      run: |
+        ssh -o StrictHostKeyChecking=no root@159.89.170.30 << 'EOF'
+          cd votemycourse-fe
+          git pull origin main
+          npm install
+          npm run build
+          pm2 restart votemycourse-fe
+        EOF
+
+    - name: Notify deployment success
+      run: echo "Deployment to Droplet was successful!"
