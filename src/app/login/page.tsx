@@ -41,7 +41,7 @@ export default function LoginPage() {
           <div
             className={`text-[#EE3617] italic text-[35px] ${playFairDisplayFont} max-w-md`}
           >
-            In a world full of people leaving there 9 to 5 to sell courses to
+            In a world full of people leaving 9 to 5 to sell courses to
             young students, it&apos;s difficult to find the perfect one.
           </div>
           <div className="h-10"></div>
