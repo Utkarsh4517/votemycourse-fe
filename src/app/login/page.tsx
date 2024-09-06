@@ -16,6 +16,8 @@ export default function LoginPage() {
         { idToken: credentialResponse.credential },
         { headers: { "Content-Type": "application/json" } }
       );
+      console.log("Token response:", response.data);
+
       const jwtToken = response.data.token;
       localStorage.setItem("token", jwtToken);
       router.push("/home");
