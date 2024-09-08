@@ -1,8 +1,6 @@
 'use client';
 import { useRouter } from "next/navigation";
 import { playFairDisplayFont, vinaSansFont } from "./fonts/fonts";
-import axios from "axios";
-import { baseUrl } from "./constants/exports";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -25,11 +23,7 @@ export default function LandingPage() {
         <div className="h-8"></div>
         <div
           className="bg-[#EE3617] px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out"
-          onClick={async () => {
-            const response = await axios.get(`${baseUrl}`, {
-            });
-            console.log('Response:', response);
-          }}
+          onClick={() => router.push("/login")}
         >
           <div
             className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617]`}

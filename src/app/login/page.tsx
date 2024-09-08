@@ -26,7 +26,7 @@ export default function LoginPage() {
     } catch (error) {
       console.error("Error exchanging code for token:", error);
       if (axios.isAxiosError(error) && error.response) {
-        console.error("Response data:", error.response.data);
+        console.error("Response data:", error.response);
       }
     }
   };
@@ -36,7 +36,7 @@ export default function LoginPage() {
       <div className="flex-row flex">
         <div className="bg-white w-[600px] h-[650px] rounded-[40px] shadow-lg flex flex-col justify-center space-y-4 ml-24 pl-12">
           <div>
-            <Image src={quote.src} alt="Quote" />
+            <Image src={quote.src} alt="Quote"  width={100} height={100}/>
           </div>
           <div
             className={`text-[#EE3617] italic text-[35px] ${playFairDisplayFont} max-w-md`}
