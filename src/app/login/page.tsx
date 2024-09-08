@@ -4,15 +4,18 @@ import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import { playFairDisplayFont, vinaSansFont } from "../fonts/fonts";
-import { baseUrl } from "../constants/exports";
+// import { baseUrl } from "../constants/exports";
 import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
+  const baseUrl = "https://api.votemycourse.com";
 
   const handleGoogleSuccess = async (credentialResponse: any) => {
     console.log("Google credential response:", credentialResponse);
     try {
+      console.log("Base url is ", baseUrl);
+      console.log("Exchanging code for token...");
       const response = await axios.post(
         `${baseUrl}/auth/google/callback`,
         { idToken: credentialResponse.credential },

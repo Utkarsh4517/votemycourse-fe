@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { baseUrl } from '../constants/exports';
 
 interface User {
   userId: number;
@@ -29,6 +28,7 @@ function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const baseUrl = "https://api.votemycourse.com";
 
   useEffect(() => {
     const token = localStorage.getItem('token');
