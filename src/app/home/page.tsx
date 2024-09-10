@@ -70,13 +70,22 @@ function Home() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#EE3617]">
       <div className="bg-white w-full max-w-[1400px] h-[800px] rounded-[40px] shadow-lg flex flex-col items-center p-6 space-y-4">
-        <input
-          type="text"
-          placeholder="Search for a course..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full max-w-[800px] p-3 px-6 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#EE3617]"
-        />
+        <div className="flex items-center w-full max-w-[800px] space-x-4">
+          <input
+            type="text"
+            placeholder="Search for a course..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-grow p-3 px-6 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#EE3617]"
+          />
+          <div className="ml-auto">
+            <button
+              onClick={handleLogout}
+              className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold mr-4"
+            >
+            </button>
+          </div>
+        </div>
 
         <div className="w-full h-full overflow-y-auto">
           {loading && <p className="text-center">Loading courses...</p>}
