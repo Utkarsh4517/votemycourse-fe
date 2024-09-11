@@ -2,17 +2,21 @@
 import { useEffect, useState } from "react";
 import { playFairDisplayFont } from "../fonts/fonts";
 import User from "../types/users";
-import axios from "axios"; // Assuming you're using Axios for API calls
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { headers } from "next/headers";
 
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
   const [courseName, setCourseName] = useState("");
   const [courseUrl, setCourseUrl] = useState("");
+  const [token, setToken] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
   const [price, setPrice] = useState("");
   const [toastMessage, setToastMessage] = useState("");
-  const [formVisible, setFormVisible] = useState(false); // State to manage form visibility
+  const [formVisible, setFormVisible] = useState(false);
   const baseUrl = "https://api.votemycourse.com";
+  const router = useRouter();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -20,6 +24,14 @@ export default function Profile() {
       setUser(JSON.parse(storedUser) as User);
     }
   }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.replace("/");
+    }
+    setToken(token!);
+  }, [router]);
 
   const handleSubmit = async () => {
     if (!user) return;
@@ -35,15 +47,17 @@ export default function Profile() {
     };
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/api/courses/add`,
-        courseData
-      );
+      const response = await axios.post(`${baseUrl}/api/courses/add`, {
+        headers: { Authorization: `Bearer ${token}` },
+        courseData,
+      });
+      console.log("Course added:", response.data);
       if (response.status === 200) {
         setToastMessage("Course added successfully!");
         resetForm();
       }
     } catch (error) {
+      console.error("Error adding course:", error);
       setToastMessage("Failed to add the course. Please try again.");
     }
   };
