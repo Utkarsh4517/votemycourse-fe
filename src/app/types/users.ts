@@ -1,9 +1,8 @@
 interface User {
     userId: number;
-    username: string;
+    name: string;
+    profileUrl: string;
     email: string;
-    role: string;
-    createdAt: string;
   }
   
   export default User;

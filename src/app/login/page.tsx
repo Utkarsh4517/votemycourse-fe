@@ -35,8 +35,6 @@ export default function LoginPage() {
       // Store user info in localStorage
       localStorage.setItem("user", JSON.stringify(user));
   
-      // You might want to set the user in your app's state as well, e.g., using React Context or Redux
-      // setUser(user);
   
       router.push("/home");
     } catch (error) {
