@@ -4,7 +4,6 @@ import { playFairDisplayFont } from "../fonts/fonts";
 import User from "../types/users";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { headers } from "next/headers";
 
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
@@ -32,7 +31,6 @@ export default function Profile() {
     }
     setToken(token!);
   }, [router]);
-
   const handleSubmit = async () => {
     if (!user) return;
 
@@ -47,9 +45,8 @@ export default function Profile() {
     };
 
     try {
-      const response = await axios.post(`${baseUrl}/api/courses/add`, {
-        headers: { Authorization: `Bearer ${token}` },
-        courseData,
+      const response = await axios.post(`${baseUrl}/api/courses/add`, courseData, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       console.log("Course added:", response.data);
       if (response.status === 200) {
