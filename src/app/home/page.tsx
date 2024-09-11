@@ -80,13 +80,12 @@ function Home() {
           />
           <div className="ml-auto">
             <button
-              onClick={handleLogout}
+              onClick={() => router.push("profile")}
               className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold mr-4"
             >
             </button>
           </div>
         </div>
-
         <div className="w-full h-full overflow-y-auto">
           {loading && <p className="text-center">Loading courses...</p>}
           {error && <p className="text-red-500 text-center">{error}</p>}
