@@ -2,9 +2,17 @@
 import { useEffect, useState } from "react";
 import { playFairDisplayFont } from "../fonts/fonts";
 import User from "../types/users";
+import axios from "axios"; // Assuming you're using Axios for API calls
 
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
+  const [courseName, setCourseName] = useState("");
+  const [courseUrl, setCourseUrl] = useState("");
+  const [courseDescription, setCourseDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
+  const [formVisible, setFormVisible] = useState(false); // State to manage form visibility
+  const baseUrl = "https://api.votemycourse.com";
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -12,6 +20,41 @@ export default function Profile() {
       setUser(JSON.parse(storedUser) as User);
     }
   }, []);
+
+  const handleSubmit = async () => {
+    if (!user) return;
+
+    const courseData = {
+      courseName,
+      courseUrl,
+      courseDescription,
+      price,
+      addedBy: {
+        userId: user.userId,
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        `${baseUrl}/api/courses/add`,
+        courseData
+      );
+      if (response.status === 200) {
+        setToastMessage("Course added successfully!");
+        resetForm();
+      }
+    } catch (error) {
+      setToastMessage("Failed to add the course. Please try again.");
+    }
+  };
+
+  const resetForm = () => {
+    setCourseName("");
+    setCourseUrl("");
+    setCourseDescription("");
+    setPrice("");
+    setFormVisible(false);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#EE3617] p-4">
@@ -29,13 +72,79 @@ export default function Profile() {
           </div>
         )}
 
-        <div className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer">
+        {!formVisible && (
           <div
-            className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617] text-sm md:text-base`}
+            className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer"
+            onClick={() => setFormVisible(true)}
           >
-            Add a new course
+            <div
+              className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617] text-sm md:text-base`}
+            >
+              Add a new course
+            </div>
           </div>
-        </div>
+        )}
+
+        {formVisible && (
+          <div className="space-y-4 w-full">
+            <input
+              type="text"
+              value={courseName}
+              onChange={(e) => setCourseName(e.target.value)}
+              placeholder="Course Name"
+              className="w-full p-2 border border-gray-300 rounded text-black"
+            />
+            <input
+              type="text"
+              value={courseUrl}
+              onChange={(e) => setCourseUrl(e.target.value)}
+              placeholder="Course URL"
+              className="w-full p-2 border border-gray-300 rounde text-black"
+            />
+            <textarea
+              value={courseDescription}
+              onChange={(e) => setCourseDescription(e.target.value)}
+              placeholder="Course Description"
+              className="w-full p-2 border border-gray-300 rounded text-black"
+            />
+            <input
+              type="text"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Price"
+              className="w-full p-2 border border-gray-300 rounded text-black"
+            />
+
+            <div className="flex space-x-4 justify-center">
+              <button
+                onClick={handleSubmit}
+                className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer"
+              >
+                <div
+                  className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617] text-sm md:text-base`}
+                >
+                  Submit
+                </div>
+              </button>
+              <button
+                onClick={resetForm}
+                className="bg-gray-400 px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-gray-600 transition-all duration-300 ease-in-out cursor-pointer"
+              >
+                <div
+                  className={`${playFairDisplayFont} italic text-white hover:text-gray-600 text-sm md:text-base`}
+                >
+                  Cancel
+                </div>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {toastMessage && (
+          <div className="mt-4 p-2 bg-green-500 text-white rounded">
+            {toastMessage}
+          </div>
+        )}
       </div>
     </div>
   );
