@@ -4,8 +4,10 @@ import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import { playFairDisplayFont, vinaSansFont } from "../fonts/fonts";
-// import { baseUrl } from "../constants/exports";
 import Image from "next/image";
+import AuthResponse from "../types/authResponse";
+
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,20 +18,31 @@ export default function LoginPage() {
     try {
       console.log("Base url is ", baseUrl);
       console.log("Exchanging code for token...");
-      const response = await axios.post(
+      const response = await axios.post<AuthResponse>(
         `${baseUrl}/auth/google/callback`,
         { idToken: credentialResponse.credential },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log("Token response:", response.data);
-
-      const jwtToken = response.data.token;
-      localStorage.setItem("token", jwtToken);
+      console.log("Auth response:", response.data);
+  
+      const { token, user } = response.data;
+      console.log("Token:", token);
+      console.log("User:", user);
+  
+      // Store token in localStorage
+      localStorage.setItem("token", token);
+  
+      // Store user info in localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+  
+      // You might want to set the user in your app's state as well, e.g., using React Context or Redux
+      // setUser(user);
+  
       router.push("/home");
     } catch (error) {
-      console.error("Error exchanging code for token:", error);
+      console.error("Error during authentication:", error);
       if (axios.isAxiosError(error) && error.response) {
-        console.error("Response data:", error.response);
+        console.error("Response data:", error.response.data);
       }
     }
   };

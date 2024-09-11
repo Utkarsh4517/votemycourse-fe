@@ -1,8 +1,14 @@
-interface Course {
-    id: number;
-    name: string;
-    url: string;
-    description: string;
+import User from "./users";
+
+  interface Course {
+    courseId: number;
+    courseName: string;
+    courseUrl: string;
+    courseDescription: string;
     price: number;
     verified: boolean;
+    addedBy: User;
+    createdAt: string;
   }
+
+  export default Course;
