@@ -9,6 +9,7 @@ import User from "./users";
     verified: boolean;
     addedBy: User;
     createdAt: string;
+    authorName: string;
   }
 
   export default Course;

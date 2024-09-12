@@ -3,25 +3,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import CourseCard from "../components/CourseCard";
+import Course from "../types/course";
 
-interface User {
-  userId: number;
-  username: string;
-  email: string;
-  role: string;
-  createdAt: string;
-}
 
-interface Course {
-  courseId: number;
-  courseName: string;
-  courseUrl: string;
-  courseDescription: string;
-  price: number;
-  verified: boolean;
-  addedBy: User;
-  createdAt: string;
-}
 
 function Home() {
   const [courses, setCourses] = useState<Course[]>([]);

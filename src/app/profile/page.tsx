@@ -12,7 +12,7 @@ export default function Profile() {
   const [token, setToken] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
   const [courseThumbnailUrl, setCourseThumbnailUrl] = useState("");
-
+  const [authorName, setAuthorName] = useState("");
   const [price, setPrice] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [formVisible, setFormVisible] = useState(false);
@@ -42,15 +42,20 @@ export default function Profile() {
       courseDescription,
       courseThumbnailUrl,
       price,
+      authorName,
       addedBy: {
         userId: user.userId,
       },
     };
 
     try {
-      const response = await axios.post(`${baseUrl}/api/courses/add`, courseData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.post(
+        `${baseUrl}/api/courses/add`,
+        courseData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       console.log("Course added:", response.data);
       if (response.status === 200) {
         setToastMessage("Course added successfully!");
@@ -68,6 +73,7 @@ export default function Profile() {
     setCourseDescription("");
     setCourseThumbnailUrl("");
     setPrice("");
+    setAuthorName("");
     setFormVisible(false);
   };
 
@@ -111,12 +117,19 @@ export default function Profile() {
             />
             <input
               type="text"
+              value={authorName}
+              onChange={(e) => setAuthorName(e.target.value)}
+              placeholder="Author Name"
+              className="w-full p-2 border border-gray-300 rounded text-black"
+            />
+            <input
+              type="text"
               value={courseUrl}
               onChange={(e) => setCourseUrl(e.target.value)}
               placeholder="Course URL"
               className="w-full p-2 border border-gray-300 rounde text-black"
             />
-              <input
+            <input
               type="text"
               value={courseThumbnailUrl}
               onChange={(e) => setCourseThumbnailUrl(e.target.value)}
@@ -136,7 +149,6 @@ export default function Profile() {
               placeholder="Price"
               className="w-full p-2 border border-gray-300 rounded text-black"
             />
-            
 
             <div className="flex space-x-4 justify-center">
               <button
