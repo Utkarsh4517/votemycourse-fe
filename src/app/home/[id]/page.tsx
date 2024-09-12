@@ -7,20 +7,28 @@ import PrimaryButton from "../../components/PrimaryButton";
 import Course from "../../types/course";
 import { render } from "react-dom";
 import StarRating from "../../components/StarRating";
+import User from "../../types/users";
+import { useRouter } from "next/navigation";
+import { comment } from "postcss";
 
 export default function CoursePage({ params }: { params: { id: string[] } }) {
+  const router = useRouter();
   const [course, setCourse] = useState<Course | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+  const [rating, setRating] = useState(0);
+  const [content, setContent] = useState("");
   const baseUrl = "https://api.votemycourse.com";
 
   const handleRatingChange = (newRating: any) => {
     console.log("Selected Rating:", newRating);
+    setRating(newRating);
   };
-  const handleChange = (event: any) => {
+  const handleReccomendationChange = (event: any) => {
     setSelectedOption(event.target.value);
   };
 
@@ -50,9 +58,51 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     }
   };
 
-  const handleReviewSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser) as User);
+    }
+  }, []);
+
+  const handleReviewSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.replace("/");
+    }
     event.preventDefault();
-    console.log("Review submitted");
+    if (!user) return;
+
+    const courseData = {
+      user: {
+        userId: user.userId,
+      },
+      course: {
+        courseId: course?.courseId,
+      },
+      rating,
+      comment: content,
+      recommend: selectedOption === "yes" ? true : false,
+    };
+
+    try {
+      const response = await axios.post(
+        `${baseUrl}/api/reviews/add`,
+        courseData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("Course added:", response.data);
+      if (response.status === 200) {
+        console.log("Review added successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding Review:", error);
+    }
+
     setShowReviewForm(false);
   };
 
@@ -144,7 +194,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                           name="option"
                           value="yes"
                           checked={selectedOption === "yes"}
-                          onChange={handleChange}
+                          onChange={handleReccomendationChange}
                         />
                         Yes
                       </label>
@@ -155,7 +205,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                           value="no"
                           checked={selectedOption === "no"}
                           className=""
-                          onChange={handleChange}
+                          onChange={handleReccomendationChange}
                         />
                         No
                       </label>
@@ -172,6 +222,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                       id="content"
                       required
                       rows={4}
+                      onChange={(e) => setContent(e.target.value)}
                       className="mt-1 block text-black p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     ></textarea>
                   </div>
