@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
@@ -8,17 +8,20 @@ import Course from "../../types/course";
 import { render } from "react-dom";
 import StarRating from "../../components/StarRating";
 
-
 export default function CoursePage({ params }: { params: { id: string[] } }) {
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
   const baseUrl = "https://api.votemycourse.com";
 
   const handleRatingChange = (newRating: any) => {
-    console.log('Selected Rating:', newRating);
+    console.log("Selected Rating:", newRating);
+  };
+  const handleChange = (event: any) => {
+    setSelectedOption(event.target.value);
   };
 
   useEffect(() => {
@@ -56,7 +59,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#EE3617]">
-        <CircularProgress/>
+        <CircularProgress />
       </div>
     );
   }
@@ -64,7 +67,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#EE3617] p-4">
-       ERROR
+        ERROR
       </div>
     );
   }
@@ -81,7 +84,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
             <div className="relative w-full lg:w-1/2 aspect-video">
               {!imageLoaded && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <CircularProgress/>
+                  <CircularProgress />
                 </div>
               )}
               <Image
@@ -95,7 +98,9 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
             </div>
             <div className="flex flex-col justify-between lg:w-1/2">
               <div>
-                <h1 className="text-2xl font-bold text-gray-800 mb-4">{course.courseName}</h1>
+                <h1 className="text-2xl font-bold text-gray-800 mb-4">
+                  {course.courseName}
+                </h1>
                 <p className="bg-gray-100 rounded-lg p-4 text-gray-700 mb-4">
                   {course.courseDescription}
                 </p>
@@ -105,7 +110,9 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                 </div>
                 <p className="text-gray-600 italic">by {course.authorName}</p>
               </div>
-              <PrimaryButton onClick={() => setShowReviewForm(true)}>Put a review</PrimaryButton>
+              <PrimaryButton onClick={() => setShowReviewForm(true)}>
+                Put a review
+              </PrimaryButton>
             </div>
           </div>
           {showReviewForm && (
@@ -114,27 +121,72 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                 <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
                 <form onSubmit={handleReviewSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="rating" className="block text-sm font-medium text-gray-700">How much do you rate this course?</label>
-                   
-                           <StarRating onRatingChange={handleRatingChange} />
+                    <label
+                      htmlFor="rating"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      How much do you rate this course?
+                    </label>
+
+                    <StarRating onRatingChange={handleRatingChange} />
                   </div>
                   <div>
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">Review Title</label>
-                    <input type="text" id="title" required 
-                           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                    <label
+                      htmlFor="title"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Will you recommend this course to others?
+                    </label>
+                    <div className="flex flex-row gap-10 text-black mt-2">
+                      <label>
+                        <input
+                          type="radio"
+                          name="option"
+                          value="yes"
+                          checked={selectedOption === "yes"}
+                          onChange={handleChange}
+                        />
+                        Yes
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name="option"
+                          value="no"
+                          checked={selectedOption === "no"}
+                          className=""
+                          onChange={handleChange}
+                        />
+                        No
+                      </label>
+                    </div>
                   </div>
                   <div>
-                    <label htmlFor="content" className="block text-sm font-medium text-gray-700">Review Content</label>
-                    <textarea id="content" required rows={4}
-                              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                    <label
+                      htmlFor="content"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Review Content
+                    </label>
+                    <textarea
+                      id="content"
+                      required
+                      rows={4}
+                      className="mt-1 block text-black p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    ></textarea>
                   </div>
                   <div className="flex justify-end space-x-2">
-                    <button type="button" onClick={() => setShowReviewForm(false)}
-                            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button
+                      type="button"
+                      onClick={() => setShowReviewForm(false)}
+                      className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
                       Cancel
                     </button>
-                    <button type="submit"
-                            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button
+                      type="submit"
+                      className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
                       Submit Review
                     </button>
                   </div>
