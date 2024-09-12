@@ -4,6 +4,7 @@ import User from "./users";
     courseId: number;
     courseName: string;
     courseUrl: string;
+    courseThumbnailUrl: string;
     courseDescription: string;
     price: number;
     verified: boolean;
