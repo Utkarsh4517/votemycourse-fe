@@ -11,6 +11,8 @@ export default function Profile() {
   const [courseUrl, setCourseUrl] = useState("");
   const [token, setToken] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
+  const [courseThumbnailUrl, setCourseThumbnailUrl] = useState("");
+
   const [price, setPrice] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [formVisible, setFormVisible] = useState(false);
@@ -38,6 +40,7 @@ export default function Profile() {
       courseName,
       courseUrl,
       courseDescription,
+      courseThumbnailUrl,
       price,
       addedBy: {
         userId: user.userId,
@@ -63,6 +66,7 @@ export default function Profile() {
     setCourseName("");
     setCourseUrl("");
     setCourseDescription("");
+    setCourseThumbnailUrl("");
     setPrice("");
     setFormVisible(false);
   };
@@ -112,6 +116,13 @@ export default function Profile() {
               placeholder="Course URL"
               className="w-full p-2 border border-gray-300 rounde text-black"
             />
+              <input
+              type="text"
+              value={courseThumbnailUrl}
+              onChange={(e) => setCourseThumbnailUrl(e.target.value)}
+              placeholder="Course Thumbnail URL"
+              className="w-full p-2 border border-gray-300 rounded text-black"
+            />
             <textarea
               value={courseDescription}
               onChange={(e) => setCourseDescription(e.target.value)}
@@ -125,6 +136,7 @@ export default function Profile() {
               placeholder="Price"
               className="w-full p-2 border border-gray-300 rounded text-black"
             />
+            
 
             <div className="flex space-x-4 justify-center">
               <button
