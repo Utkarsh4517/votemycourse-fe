@@ -5,11 +5,9 @@ import Image from "next/image";
 import CircularProgress from "../../components/CircularProgress";
 import PrimaryButton from "../../components/PrimaryButton";
 import Course from "../../types/course";
-import { render } from "react-dom";
 import StarRating from "../../components/StarRating";
 import User from "../../types/users";
 import { useRouter } from "next/navigation";
-import { comment } from "postcss";
 
 export default function CoursePage({ params }: { params: { id: string[] } }) {
   const router = useRouter();
