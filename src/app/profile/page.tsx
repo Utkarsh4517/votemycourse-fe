@@ -19,8 +19,24 @@ export default function Profile() {
   const baseUrl = "https://api.votemycourse.com";
   const router = useRouter();
 
+  // const fetchCourses = async () => {
+
+  //   const token = localStorage.getItem("token");
+    
+  //   try {
+  //     const response = await axios.get(`${baseUrl}/api/courses/addedBy/1`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     console.log("Courses:", response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching courses:", error);
+  //   } finally {
+  //   }
+  // };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+
     if (storedUser) {
       setUser(JSON.parse(storedUser) as User);
     }
@@ -31,6 +47,7 @@ export default function Profile() {
     if (!token) {
       router.replace("/");
     }
+    // fetchCourses();
     setToken(token!);
   }, [router]);
   const handleSubmit = async () => {

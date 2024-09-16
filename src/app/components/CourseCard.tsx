@@ -14,9 +14,11 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
     <a href={`/home/${course.courseId}`}>
     <div key={course.courseId} className="border p-4 rounded shadow text-black">
       <h2 className="text-xl font-bold">{course.courseName}</h2>
-      <p>ID: {course.courseId}</p>
-      <p>URL: <a href={course.courseUrl} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">{course.courseUrl}</a></p>
-      <p>Description: {course.courseDescription}</p>
+      {/* <p>ID: {course.courseId}</p> */}
+      {/* <p>URL: <a href={course.courseUrl} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">{course.courseUrl}</a></p> */}
+      <p className="bg-gray-100 rounded-lg p-4 text-gray-700 mb-4">
+                  {course.courseDescription}
+                </p>
       <p>Price: ${course.price.toFixed(2)}</p>
       <p>Verified: {course.verified ? 'Yes' : 'No'}</p>
       <p>Added By: {course.addedBy.name}</p>

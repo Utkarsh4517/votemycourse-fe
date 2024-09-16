@@ -101,8 +101,9 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
       },
       rating,
       comment: content,
-      recommend: selectedOption === "yes" ? true : false,
+      recommended: selectedOption === "yes" ? true : false,
     };
+    console.log("Review Data:", courseData);
 
     try {
       const response = await axios.post(
