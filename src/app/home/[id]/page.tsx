@@ -122,7 +122,6 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     }
 
     setShowReviewForm(false);
-    // Reset form fields
     setRating(0);
     setSelectedOption("");
     setContent("");
