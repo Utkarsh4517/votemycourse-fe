@@ -26,6 +26,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     console.log("Selected Rating:", newRating);
     setRating(newRating);
   };
+
   const handleReccomendationChange = (event: any) => {
     setSelectedOption(event.target.value);
   };
@@ -33,6 +34,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
   useEffect(() => {
     const courseId = params.id[0];
     fetchCourse(courseId);
+    fetchReviews(courseId); 
   }, [params.id]);
 
   const fetchCourse = async (courseId: string) => {
@@ -56,6 +58,18 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     }
   };
 
+  const fetchReviews = async (courseId: string) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get(`${baseUrl}/api/reviews/${courseId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log("Reviews fetched:", response.data); // Print reviews to the console
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -63,9 +77,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     }
   }, []);
 
-  const handleReviewSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleReviewSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const token = localStorage.getItem("token");
     if (!token) {
       router.replace("/");
@@ -93,7 +105,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("Course added:", response.data);
+      console.log("Review added:", response.data);
       if (response.status === 200) {
         console.log("Review added successfully!");
       }
