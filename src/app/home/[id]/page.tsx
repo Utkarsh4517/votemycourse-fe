@@ -175,9 +175,10 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                 <p className="bg-gray-100 rounded-lg p-4 text-gray-700 mb-4">
                   {course.courseDescription}
                 </p>
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-start mb-2">
                   <span className="text-gray-600 font-semibold">Price:</span>
-                  <span className="font-bold">${course.price}</span>
+                  <span className="mx-1"></span>
+                  <span className="font-bold text-black">${course.price}</span>
                 </div>
                 <p className="text-gray-600 italic">by {course.authorName}</p>
               </div>
