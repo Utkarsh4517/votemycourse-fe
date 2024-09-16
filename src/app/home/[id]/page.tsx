@@ -8,10 +8,12 @@ import Course from "../../types/course";
 import StarRating from "../../components/StarRating";
 import User from "../../types/users";
 import { useRouter } from "next/navigation";
+import { Review } from "../../types/review";
 
 export default function CoursePage({ params }: { params: { id: string[] } }) {
   const router = useRouter();
   const [course, setCourse] = useState<Course | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -64,7 +66,8 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
       const response = await axios.get(`${baseUrl}/api/reviews/${courseId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("Reviews fetched:", response.data); // Print reviews to the console
+      console.log("Reviews fetched:", response.data);
+      setReviews(response.data);
     } catch (error) {
       console.error("Error fetching reviews:", error);
     }
