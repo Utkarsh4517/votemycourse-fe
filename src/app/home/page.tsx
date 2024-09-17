@@ -17,6 +17,7 @@ function Home() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+
     const token = localStorage.getItem("token");
     if (!token) {
       router.replace("/");
@@ -38,6 +39,7 @@ function Home() {
       const response = await axios.get(`${baseUrl}/api/courses/all`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log("Courses:", response.data);
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
@@ -72,38 +74,19 @@ function Home() {
               onClick={() => router.push("profile")}
               src={user?.profileUrl}
               className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold"
-            />
+            ></img>
           </div>
           <div className="ml-auto">
             <button
+
               onClick={() => {
                 router.push("/");
                 localStorage.removeItem("token");
               }}
               className="text-black font-mono text-[10px]"
-            >
-              Logout
-            </button>
+            > Logout </button>
           </div>
         </div>
-
-        {/* Google AdSense ad */}
-        <div className="w-full my-4">
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-8203768230298771"
-            data-ad-slot="3500106436"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-          <script>
-            {typeof window !== "undefined" &&
-              window.adsbygoogle &&
-              window.adsbygoogle.push({})}
-          </script>
-        </div>
-
         <div className="w-full h-full overflow-y-auto">
           {loading && <p className="text-center">Loading courses...</p>}
           {error && <p className="text-red-500 text-center">{error}</p>}
