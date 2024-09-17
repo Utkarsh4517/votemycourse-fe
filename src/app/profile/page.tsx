@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { playFairDisplayFont } from "../fonts/fonts";
+import { playFairDisplayFont, sahityaFont } from "../fonts/fonts";
 import User from "../types/users";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -117,11 +117,11 @@ export default function Profile() {
             {!formVisible && (
               <div className="flex justify-center">
                 <div
-                  className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer"
+                  className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer hover:border-[#EE3617] border"
                   onClick={() => setFormVisible(true)}
                 >
                   <div
-                    className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617] text-sm md:text-base`}
+                    className={`${sahityaFont} text-sm md:text-base`}
                   >
                     Add a new course
                   </div>
@@ -169,27 +169,27 @@ export default function Profile() {
                   type="text"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Price"
+                  placeholder="Price (Keep empty if free)"
                   className="w-full p-2 border border-gray-300 rounded text-black"
                 />
 
                 <div className="flex space-x-4 justify-center">
                   <button
                     onClick={handleSubmit}
-                    className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer"
+                    className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white  hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer hover:border-[#EE3617] border"
                   >
                     <div
-                      className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617] text-sm md:text-base`}
+                      className={`${sahityaFont} italic  text-sm md:text-base`}
                     >
-                      Submit
+                      Add a course
                     </div>
                   </button>
                   <button
                     onClick={resetForm}
-                    className="bg-gray-400 px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-gray-600 transition-all duration-300 ease-in-out cursor-pointer"
+                    className="bg-gray-400 px-6 md:px-8 py-2 rounded-full hover:bg-white  hover:text-gray-600 transition-all duration-300 ease-in-out cursor-pointer hover:border-gray-600 border"
                   >
                     <div
-                      className={`${playFairDisplayFont} italic text-white hover:text-gray-600 text-sm md:text-base`}
+                      className={`${sahityaFont} italic text-sm md:text-base`}
                     >
                       Cancel
                     </div>

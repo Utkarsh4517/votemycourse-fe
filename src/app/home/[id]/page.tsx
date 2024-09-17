@@ -10,6 +10,7 @@ import User from "../../types/users";
 import { useRouter } from "next/navigation";
 import { Review } from "../../types/review";
 import ReviewCard from "../../components/ReviewCard";
+import { sahityaFont } from "../../fonts/fonts";
 
 export default function CoursePage({ params }: { params: { id: string[] } }) {
   const router = useRouter();
@@ -157,7 +158,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#EE3617] p-4">
-      <div className="bg-white w-full h-[calc(100vh-30px)] pb-12 rounded-3xl shadow-lg overflow-hidden flex flex-col">
+      <div className="bg-white w-full h-[calc(100vh-30px)] pb-8 rounded-3xl shadow-lg overflow-hidden flex flex-col">
         <div className="p-6 space-y-6 flex-shrink-0">
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="relative w-full lg:w-1/2 aspect-video">
@@ -190,7 +191,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                 </div>
                 <p className="text-gray-600 italic">by {course.authorName}</p>
                 <p className="mt-1 text-black">
-                  This is recommended in{" "} 
+                  This is recommended in{" "}
                   <span
                     className={`font-bold ${getRecommendationColor(
                       course.recommendationPercentage
@@ -198,11 +199,17 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                   >
                     {course.recommendationPercentage.toFixed(2)}%
                   </span>
-                  <span className="text-black ml-1">
-                  of reviews
-                  </span>
+                  <span className="text-black ml-1">of reviews</span>
                 </p>
               </div>
+              <button
+                className={`bg-[#EE3617] px-6 py-3 rounded-full ${sahityaFont} text-white italic inline-flex text-center justify-center hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out hover:border-[#EE3617] border`}
+                onClick={() => window.open(`${course.courseUrl}`, "_blank")}
+
+
+              >
+                View Course
+              </button>
               <PrimaryButton onClick={() => setShowReviewForm(true)}>
                 Put a review
               </PrimaryButton>

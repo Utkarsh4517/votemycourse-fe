@@ -67,7 +67,7 @@ function Home() {
             placeholder="Search for a course..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-grow p-3 px-6 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#EE3617]"
+            className="flex-grow p-3 px-6 rounded-full border text-[#EE3617] border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#EE3617]"
           />
           <div className="ml-auto">
             <img
