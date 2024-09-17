@@ -51,43 +51,42 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center bg-[#EE3617]">
-      <div className="flex-row flex">
-        <div className="bg-white w-[600px] h-[650px] rounded-[40px] shadow-lg flex flex-col justify-center space-y-4 ml-24 pl-12">
+    <div className="min-h-screen flex flex-col lg:flex-row items-center bg-[#EE3617] p-4 lg:p-0">
+      <div className="w-full lg:w-auto lg:flex-1 flex flex-col lg:flex-row items-center lg:items-stretch lg:ml-24">
+        <div className="bg-white w-full lg:w-[600px] h-auto lg:h-[650px] rounded-[40px] shadow-lg flex flex-col justify-center space-y-4 p-8 lg:p-12 mb-8 lg:mb-0">
           <div>
             <Image src={quote.src} alt="Quote" width={100} height={100} />
           </div>
           <div
-            className={`text-[#EE3617] italic text-[35px] ${playFairDisplayFont} max-w-md`}
+            className={`text-[#EE3617] italic text-2xl lg:text-[35px] ${playFairDisplayFont} max-w-md`}
           >
             In a world full of people leaving 9 to 5 to sell courses to young
             students, it&apos;s difficult to find the perfect one.
           </div>
           <div className="h-10"></div>
-          <div className="bg-[#EE3617] px-8 py-2 rounded-full ml-48 mr-6">
-            <div className={`${playFairDisplayFont} italic text-white`}>
+          <div className="bg-[#EE3617] px-4 lg:px-8 py-2 rounded-full self-end lg:ml-48 lg:mr-6 mt-4 lg:mt-0">
+            <div className={`${playFairDisplayFont} italic text-white text-sm lg:text-base`}>
               It&apos;s high time to show&apos;em some levels.....
             </div>
           </div>
         </div>
-        <div>
-          <div
-            className={`text-white text-[180px] ${vinaSansFont} text-center leading-negative ml-32`}
-          >
-            <span>Vote My</span>
-            <br />
-            <span>Course</span>
-          </div>
-          <div className="m-10 ml-64">
-            <GoogleLogin
-              shape="circle"
-              
-              onSuccess={handleGoogleSuccess}
-              onError={() => console.log("Login Failed")}
-            />
-          </div>
+      </div>
+      <div className="w-full lg:w-auto lg:flex-1 flex flex-col items-center lg:items-start lg:ml-32">
+        <div
+          className={`text-white text-6xl lg:text-[180px] ${vinaSansFont} text-center leading-negative mb-8 lg:mb-0`}
+        >
+          <span>Vote My</span>
+          <br />
+          <span>Course</span>
+        </div>
+        <div className="flex flex-col items-center lg:items-start space-y-4 mt-8 lg:mt-10 lg:ml-32">
+          <GoogleLogin
+            shape="circle"
+            onSuccess={handleGoogleSuccess}
+            onError={() => console.log("Login Failed")}
+          />
           <button
-            className={`bg-white px-6 py-2 rounded-full ${sahityaFont} text-[#EE3617] italic inline-flex ml-64 hover:bg-[#EE3617] hover:text-white transition-all duration-300 ease-in-out hover:border-white border`}
+            className={`bg-white px-6 py-2 rounded-full ${sahityaFont} text-[#EE3617] italic hover:bg-[#EE3617] hover:text-white transition-all duration-300 ease-in-out hover:border-white border`}
             onClick={() => router.push("/onlyfans")}
           >
             continue with onlyfans
