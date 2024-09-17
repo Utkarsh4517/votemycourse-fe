@@ -6,11 +6,19 @@ import { useRouter } from "next/navigation";
 import { playFairDisplayFont, vinaSansFont } from "../fonts/fonts";
 import Image from "next/image";
 import AuthResponse from "../types/authResponse";
+import { useEffect } from "react";
 
 
 
 export default function LoginPage() {
   const router = useRouter();
+
+  useEffect(() => { 
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.replace("/home");
+    }
+  }, []);
   const baseUrl = "https://api.votemycourse.com";
 
   const handleGoogleSuccess = async (credentialResponse: any) => {

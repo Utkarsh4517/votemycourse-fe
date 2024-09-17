@@ -4,10 +4,10 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import CourseCard from "../components/CourseCard";
 import Course from "../types/course";
-
-
+import User from "../types/users";
 
 function Home() {
+  const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,10 +16,17 @@ function Home() {
   const baseUrl = "https://api.votemycourse.com";
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
     const token = localStorage.getItem("token");
     if (!token) {
       router.replace("/");
     }
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser) as User;
+      setUser(parsedUser);
+    }
+
     fetchCourses();
   }, [router]);
 
@@ -47,7 +54,7 @@ function Home() {
     router.push("/");
   };
 
-  const filteredCourses = courses.filter(course =>
+  const filteredCourses = courses.filter((course) =>
     course.courseName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -63,11 +70,21 @@ function Home() {
             className="flex-grow p-3 px-6 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#EE3617]"
           />
           <div className="ml-auto">
-            <button
+            <img
               onClick={() => router.push("profile")}
-              className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold mr-4"
-            >
-            </button>
+              src={user?.profileUrl}
+              className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold"
+            ></img>
+          </div>
+          <div className="ml-auto">
+            <button
+
+              onClick={() => {
+                router.push("/");
+                localStorage.removeItem("token");
+              }}
+              className="text-black font-mono text-[10px]"
+            > Logout </button>
           </div>
         </div>
         <div className="w-full h-full overflow-y-auto">
