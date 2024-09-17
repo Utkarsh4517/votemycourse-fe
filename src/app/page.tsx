@@ -29,16 +29,16 @@ export default function LandingPage() {
           <span>Course</span>
         </div>
         <div className="h-8"></div>
-        <div
-          className="bg-[#EE3617] px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out"
+        <button
+          className="bg-[#EE3617] px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out border hover:border-[#EE3617]"
           onClick={() => router.push("/login")}
         >
           <div
-            className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617]`}
+            className={`${playFairDisplayFont} italic text-white hover:text-[#EE3617] `}
           >
             get started
           </div>
-        </div>
+        </button>
       </div>
     </div>
   );

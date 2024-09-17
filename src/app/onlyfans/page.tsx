@@ -9,6 +9,8 @@ export default function OnlyFansPage() {
       <Image
         src="https://media1.tenor.com/m/4YDZfwNpjwAAAAAd/pogled-pas.gif"
         alt="Pogled Pas GIF"
+        width={800}
+        height={800}
         className="max-h-screen max-w-screen object-cover"
       />
     </div>

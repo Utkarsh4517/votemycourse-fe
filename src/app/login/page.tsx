@@ -3,17 +3,15 @@ import quote from "../../assets/quote.svg";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
-import { playFairDisplayFont, vinaSansFont } from "../fonts/fonts";
+import { playFairDisplayFont, vinaSansFont, sahityaFont } from "../fonts/fonts";
 import Image from "next/image";
 import AuthResponse from "../types/authResponse";
 import { useEffect } from "react";
 
-
-
 export default function LoginPage() {
   const router = useRouter();
 
-  useEffect(() => { 
+  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       router.replace("/home");
@@ -32,18 +30,17 @@ export default function LoginPage() {
         { headers: { "Content-Type": "application/json" } }
       );
       console.log("Auth response:", response.data);
-  
+
       const { token, user } = response.data;
       console.log("Token:", token);
       console.log("User:", user);
-  
+
       // Store token in localStorage
       localStorage.setItem("token", token);
-  
+
       // Store user info in localStorage
       localStorage.setItem("user", JSON.stringify(user));
-  
-  
+
       router.push("/home");
     } catch (error) {
       console.error("Error during authentication:", error);
@@ -58,13 +55,13 @@ export default function LoginPage() {
       <div className="flex-row flex">
         <div className="bg-white w-[600px] h-[650px] rounded-[40px] shadow-lg flex flex-col justify-center space-y-4 ml-24 pl-12">
           <div>
-            <Image src={quote.src} alt="Quote"  width={100} height={100}/>
+            <Image src={quote.src} alt="Quote" width={100} height={100} />
           </div>
           <div
             className={`text-[#EE3617] italic text-[35px] ${playFairDisplayFont} max-w-md`}
           >
-            In a world full of people leaving 9 to 5 to sell courses to
-            young students, it&apos;s difficult to find the perfect one.
+            In a world full of people leaving 9 to 5 to sell courses to young
+            students, it&apos;s difficult to find the perfect one.
           </div>
           <div className="h-10"></div>
           <div className="bg-[#EE3617] px-8 py-2 rounded-full ml-48 mr-6">
@@ -83,16 +80,18 @@ export default function LoginPage() {
           </div>
           <div className="m-10 ml-64">
             <GoogleLogin
+              shape="circle"
+              
               onSuccess={handleGoogleSuccess}
               onError={() => console.log("Login Failed")}
             />
           </div>
-          <div
-            className={`bg-white px-8 py-2 rounded-full ${playFairDisplayFont} text-[#EE3617] italic inline-flex ml-64 hover:bg-[#EE3617] hover:text-white transition-all duration-300 ease-in-out`}
-          onClick={() => router.push("/onlyfans")}
+          <button
+            className={`bg-white px-6 py-2 rounded-full ${sahityaFont} text-[#EE3617] italic inline-flex ml-64 hover:bg-[#EE3617] hover:text-white transition-all duration-300 ease-in-out hover:border-white border`}
+            onClick={() => router.push("/onlyfans")}
           >
             continue with onlyfans
-          </div>
+          </button>
         </div>
       </div>
     </div>
