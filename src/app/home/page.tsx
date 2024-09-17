@@ -6,6 +6,13 @@ import CourseCard from "../components/CourseCard";
 import Course from "../types/course";
 import User from "../types/users";
 
+// Extend the global Window interface to include adsbygoogle
+declare global {
+  interface Window {
+    adsbygoogle: any[];
+  }
+}
+
 function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -28,6 +35,19 @@ function Home() {
     }
 
     fetchCourses();
+
+    // Initialize Google AdSense
+    const initializeAds = () => {
+      try {
+        if (window.adsbygoogle && window.adsbygoogle.length) {
+          window.adsbygoogle.push({});
+        }
+      } catch (err) {
+        console.error("Adsense error:", err);
+      }
+    };
+
+    initializeAds();
   }, [router]);
 
   const fetchCourses = async () => {
@@ -78,15 +98,39 @@ function Home() {
           </div>
           <div className="ml-auto">
             <button
-
               onClick={() => {
                 router.push("/");
                 localStorage.removeItem("token");
               }}
               className="text-black font-mono text-[10px]"
-            > Logout </button>
+            >
+              Logout
+            </button>
           </div>
         </div>
+
+        {/* Google AdSense Ad */}
+        <div className="w-full my-4">
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8203768230298771"
+            crossOrigin="anonymous"
+          ></script>
+
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client="ca-pub-8203768230298771"
+            data-ad-slot="3500106436"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          ></ins>
+
+          <script>
+            {(window.adsbygoogle = window.adsbygoogle || []).push({})}
+          </script>
+        </div>
+
         <div className="w-full h-full overflow-y-auto">
           {loading && <p className="text-center">Loading courses...</p>}
           {error && <p className="text-red-500 text-center">{error}</p>}
