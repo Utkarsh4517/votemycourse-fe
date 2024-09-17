@@ -6,13 +6,6 @@ import CourseCard from "../components/CourseCard";
 import Course from "../types/course";
 import User from "../types/users";
 
-// Extend the global Window interface to include adsbygoogle
-declare global {
-  interface Window {
-    adsbygoogle: any[];
-  }
-}
-
 function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -24,7 +17,6 @@ function Home() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-
     const token = localStorage.getItem("token");
     if (!token) {
       router.replace("/");
@@ -35,19 +27,6 @@ function Home() {
     }
 
     fetchCourses();
-
-    // Initialize Google AdSense
-    const initializeAds = () => {
-      try {
-        if (window.adsbygoogle && window.adsbygoogle.length) {
-          window.adsbygoogle.push({});
-        }
-      } catch (err) {
-        console.error("Adsense error:", err);
-      }
-    };
-
-    initializeAds();
   }, [router]);
 
   const fetchCourses = async () => {
@@ -59,7 +38,6 @@ function Home() {
       const response = await axios.get(`${baseUrl}/api/courses/all`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("Courses:", response.data);
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
@@ -94,7 +72,7 @@ function Home() {
               onClick={() => router.push("profile")}
               src={user?.profileUrl}
               className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold"
-            ></img>
+            />
           </div>
           <div className="ml-auto">
             <button
@@ -109,14 +87,8 @@ function Home() {
           </div>
         </div>
 
-        {/* Google AdSense Ad */}
+        {/* Google AdSense ad */}
         <div className="w-full my-4">
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8203768230298771"
-            crossOrigin="anonymous"
-          ></script>
-
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
@@ -124,10 +96,11 @@ function Home() {
             data-ad-slot="3500106436"
             data-ad-format="auto"
             data-full-width-responsive="true"
-          ></ins>
-
+          />
           <script>
-            {(window.adsbygoogle = window.adsbygoogle || []).push({})}
+            {typeof window !== "undefined" &&
+              window.adsbygoogle &&
+              window.adsbygoogle.push({})}
           </script>
         </div>
 

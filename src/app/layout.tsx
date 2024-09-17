@@ -1,10 +1,12 @@
 import './globals.css';
-import { Inter} from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const google = process.env.GOOGLE_CLIENT_ID || '';
+const adsence = process.env.ADSENSE_SCRIPT || '';
 
 export default function RootLayout({
   children,
@@ -13,11 +15,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Script
+        async
+        src={adsence}
+        crossOrigin="anonymous"
+      />
+
       <GoogleOAuthProvider clientId={google}>
         <body className={`${inter.className}`}>{children}</body>
       </GoogleOAuthProvider>
-
     </html>
   );
 }
-
