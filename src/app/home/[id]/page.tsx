@@ -25,6 +25,13 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
   const [content, setContent] = useState("");
   const baseUrl = "https://api.votemycourse.com";
 
+  const getRecommendationColor = (percentage: number): string => {
+    if (percentage < 25) return "text-red-500";
+    if (percentage < 50) return "text-orange-500";
+    if (percentage < 75) return "text-yellow-500";
+    return "text-green-500";
+  };
+
   const handleRatingChange = (newRating: any) => {
     console.log("Selected Rating:", newRating);
     setRating(newRating);
@@ -182,6 +189,19 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                   <span className="font-bold text-black">${course.price}</span>
                 </div>
                 <p className="text-gray-600 italic">by {course.authorName}</p>
+                <p className="mt-1 text-black">
+                  This is recommended in{" "} 
+                  <span
+                    className={`font-bold ${getRecommendationColor(
+                      course.recommendationPercentage
+                    )}`}
+                  >
+                    {course.recommendationPercentage}%
+                  </span>
+                  <span className="text-black ml-1">
+                  of reviews
+                  </span>
+                </p>
               </div>
               <PrimaryButton onClick={() => setShowReviewForm(true)}>
                 Put a review

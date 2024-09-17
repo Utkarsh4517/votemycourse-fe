@@ -11,6 +11,7 @@ import User from "./users";
     addedBy: User;
     createdAt: string;
     authorName: string;
+    recommendationPercentage: number;
   }
 
   export default Course;

@@ -7,5 +7,6 @@ export interface Review {
     createdAt: string;
     recommended: boolean;
     reviewId: 1;
+    rating: number;
     user: User;
 }

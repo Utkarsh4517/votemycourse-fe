@@ -73,7 +73,7 @@ function Home() {
         <div className="w-full h-full overflow-y-auto">
           {loading && <p className="text-center">Loading courses...</p>}
           {error && <p className="text-red-500 text-center">{error}</p>}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredCourses.map((course) => (
               <CourseCard key={course.courseId} course={course} />
             ))}
