@@ -15,6 +15,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
       className="border p-2 rounded-lg shadow text-black"
     >
       <h2 className="text-sm">{review.comment}</h2>
+      <div>
+        {review.recommended === true ? <span className="text-green-600 text-sm font-bold">Recommended</span> : <span className="text-red-600 text-sm font-bold">Not Recommended</span>}
+      </div>
 
       <p className="text-[8px] text-gray-500">by {review.user.name}</p>
       <div className="flex flex-row items-center justify-between">

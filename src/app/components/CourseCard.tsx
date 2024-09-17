@@ -45,7 +45,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
               course.recommendationPercentage
             )}`}
           >
-            {course.recommendationPercentage}%
+            {course.recommendationPercentage.toFixed(2)}%
           </span>
         </p>
       </div>

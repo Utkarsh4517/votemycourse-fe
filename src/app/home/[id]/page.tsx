@@ -196,7 +196,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                       course.recommendationPercentage
                     )}`}
                   >
-                    {course.recommendationPercentage}%
+                    {course.recommendationPercentage.toFixed(2)}%
                   </span>
                   <span className="text-black ml-1">
                   of reviews
