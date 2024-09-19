@@ -121,7 +121,7 @@ export default function Profile() {
                   onClick={() => setFormVisible(true)}
                 >
                   <div
-                    className={`${sahityaFont} text-sm md:text-base`}
+                    className={`${sahityaFont} text-sm md:text-base text-white`}
                   >
                     Add a new course
                   </div>
