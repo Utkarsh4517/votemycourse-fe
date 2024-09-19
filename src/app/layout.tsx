@@ -22,6 +22,8 @@ export default function RootLayout({
           src="https://richinfo.co/richpartners/push/js/rp-cl-ob.js?pubid=940411&siteid=351360&niche=33"
           async
           data-cfasync="false"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
         />
       </head>
       <GoogleOAuthProvider clientId={google}>
