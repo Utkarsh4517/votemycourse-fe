@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <Script
           type="module"
           src="https://richinfo.co/richpartners/push/js/rp-cl-ob.js?pubid=940411&siteid=351360&niche=33"
@@ -25,7 +25,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
-      </head>
+      </head> */}
       <GoogleOAuthProvider clientId={google}>
         <body className={`${inter.className}`}>{children}</body>
         <GoogleAdsense pId={pub} />
