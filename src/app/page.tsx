@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { playFairDisplayFont, vinaSansFont } from "./fonts/fonts";
 import { useEffect } from "react";
+import CarbonDirectLink from "./components/Carbon";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function LandingPage() {
           <br />
           <span>Course</span>
         </div>
+        <CarbonDirectLink siteId="351360" />
         <div className="h-4 sm:h-6 md:h-8"></div>
         <button
           className="bg-[#EE3617] px-6 sm:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out border hover:border-[#EE3617]"
