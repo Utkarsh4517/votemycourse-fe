@@ -28,7 +28,7 @@ export default function RootLayout({
       </head>
       <GoogleOAuthProvider clientId={google}>
         <body className={`${inter.className}`}>{children}</body>
-        <GoogleAdsense pId={pub} />
+        {/* <GoogleAdsense pId={pub} /> */}
       </GoogleOAuthProvider>
     </html>
   );
