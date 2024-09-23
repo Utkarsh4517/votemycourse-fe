@@ -97,118 +97,115 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#EE3617] p-4">
-      <div className="bg-white w-full max-w-[1400px] h-[800px] rounded-[20px] md:rounded-[40px] shadow-lg flex flex-col p-4 md:p-6">
-        <div className="flex-grow overflow-y-auto">
-          <div className="space-y-4">
-            {user && (
-              <div className="text-center space-y-4 text-black w-full">
-                <div className="flex justify-center">
-                  <img
-                    src={user.profileUrl}
-                    alt={user.name}
-                    className="rounded-full w-24 h-24 md:w-36 md:h-36"
-                  />
-                </div>
-                <p className="text-base md:text-lg">{user.name}</p>
-              </div>
-            )}
-
-            {!formVisible && (
+    <div className="min-h-screen flex bg-[#EE3617] p-4">
+      <div className="bg-white w-full max-w-[1400px] h-[800px] rounded-[20px] md:rounded-[40px] shadow-lg flex flex-col md:flex-row p-4 md:p-6 mx-auto">
+        {/* Left Sidebar */}
+        <div className="md:w-1/3 lg:w-1/4 space-y-6 pr-4 sm:h-screen h-screen lg:h-auto">
+          {user && (
+            <div className="text-center space-y-4 text-black">
               <div className="flex justify-center">
-                <div
-                  className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer hover:border-[#EE3617] border"
-                  onClick={() => setFormVisible(true)}
-                >
-                  <div
-                    className={`${sahityaFont} text-sm md:text-base text-white`}
-                  >
-                    Add a new course
-                  </div>
-                </div>
+                <img
+                  src={user.profileUrl}
+                  alt={user.name}
+                  className="rounded-full w-24 h-24 md:w-36 md:h-36"
+                />
               </div>
-            )}
-
-            {formVisible && (
-              <div className="space-y-4 w-full">
-                <input
-                  type="text"
-                  value={courseName}
-                  onChange={(e) => setCourseName(e.target.value)}
-                  placeholder="Course Name"
-                  className="w-full p-2 border border-gray-300 rounded text-black"
-                />
-                <input
-                  type="text"
-                  value={authorName}
-                  onChange={(e) => setAuthorName(e.target.value)}
-                  placeholder="Author Name"
-                  className="w-full p-2 border border-gray-300 rounded text-black"
-                />
-                <input
-                  type="text"
-                  value={courseUrl}
-                  onChange={(e) => setCourseUrl(e.target.value)}
-                  placeholder="Course URL"
-                  className="w-full p-2 border border-gray-300 rounded text-black"
-                />
-                <input
-                  type="text"
-                  value={courseThumbnailUrl}
-                  onChange={(e) => setCourseThumbnailUrl(e.target.value)}
-                  placeholder="Course Thumbnail URL"
-                  className="w-full p-2 border border-gray-300 rounded text-black"
-                />
-                <textarea
-                  value={courseDescription}
-                  onChange={(e) => setCourseDescription(e.target.value)}
-                  placeholder="Course Description"
-                  className="w-full p-2 border border-gray-300 rounded text-black"
-                />
-                <input
-                  type="text"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Price (Keep empty if free)"
-                  className="w-full p-2 border border-gray-300 rounded text-black"
-                />
-
-                <div className="flex space-x-4 justify-center">
-                  <button
-                    onClick={handleSubmit}
-                    className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white  hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer hover:border-[#EE3617] border"
-                  >
-                    <div
-                      className={`${sahityaFont} italic  text-sm md:text-base`}
-                    >
-                      Add a course
-                    </div>
-                  </button>
-                  <button
-                    onClick={resetForm}
-                    className="bg-gray-400 px-6 md:px-8 py-2 rounded-full hover:bg-white  hover:text-gray-600 transition-all duration-300 ease-in-out cursor-pointer hover:border-gray-600 border"
-                  >
-                    <div
-                      className={`${sahityaFont} italic text-sm md:text-base`}
-                    >
-                      Cancel
-                    </div>
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {toastMessage && (
-              <div className="mt-4 p-2 bg-green-500 text-white rounded">
-                {toastMessage}
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {courses.map((course) => (
-                <CourseCard key={course.courseId} course={course} />
-              ))}
+              <p className="text-base md:text-lg">{user.name}</p>
             </div>
+          )}
+
+          <div className="flex justify-center">
+            {!formVisible && (
+              <button
+              className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer hover:border-[#EE3617] border"
+              onClick={() => setFormVisible(!formVisible)}
+            >
+              <div className={`${sahityaFont} text-sm md:text-base text-white hover:text-[#EE3617]`}>
+                Add a new course
+              </div>
+            </button>
+            )}
+            
+          </div>
+
+          {formVisible && (
+            <div className="space-y-4 w-full">
+              <input
+                type="text"
+                value={courseName}
+                onChange={(e) => setCourseName(e.target.value)}
+                placeholder="Course Name"
+                className="w-full p-2 border border-gray-300 rounded text-black"
+              />
+              <input
+                type="text"
+                value={authorName}
+                onChange={(e) => setAuthorName(e.target.value)}
+                placeholder="Author Name"
+                className="w-full p-2 border border-gray-300 rounded text-black"
+              />
+              <input
+                type="text"
+                value={courseUrl}
+                onChange={(e) => setCourseUrl(e.target.value)}
+                placeholder="Course URL"
+                className="w-full p-2 border border-gray-300 rounded text-black"
+              />
+              <input
+                type="text"
+                value={courseThumbnailUrl}
+                onChange={(e) => setCourseThumbnailUrl(e.target.value)}
+                placeholder="Course Thumbnail URL"
+                className="w-full p-2 border border-gray-300 rounded text-black"
+              />
+              <textarea
+                value={courseDescription}
+                onChange={(e) => setCourseDescription(e.target.value)}
+                placeholder="Course Description"
+                className="w-full p-2 border border-gray-300 rounded text-black"
+              />
+              <input
+                type="text"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Price (Keep empty if free)"
+                className="w-full p-2 border border-gray-300 rounded text-black"
+              />
+
+              <div className="flex space-x-4 justify-center">
+                <button
+                  onClick={handleSubmit}
+                  className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer hover:border-[#EE3617] border"
+                >
+                  <div className={`${sahityaFont} italic text-sm md:text-base text-white hover:text-[#EE3617]`}>
+                    Add course
+                  </div>
+                </button>
+                <button
+                  onClick={resetForm}
+                  className="bg-gray-400 px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-gray-600 transition-all duration-300 ease-in-out cursor-pointer hover:border-gray-600 border"
+                >
+                  <div className={`${sahityaFont} italic text-sm md:text-base`}>
+                    Cancel
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {toastMessage && (
+            <div className="mt-4 p-2 bg-green-500 text-white rounded">
+              {toastMessage}
+            </div>
+          )}
+        </div>
+
+        {/* Right Side - Courses */}
+        <div className="md:w-2/3 lg:w-3/4 overflow-y-auto mt-6 md:mt-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {courses.map((course) => (
+              <CourseCard key={course.courseId} course={course} />
+            ))}
           </div>
         </div>
       </div>

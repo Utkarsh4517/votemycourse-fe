@@ -162,7 +162,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     <div className="min-h-screen flex items-center justify-center bg-[#EE3617] p-4">
       <div className="bg-white w-full h-[calc(100vh-30px)] rounded-3xl shadow-lg overflow-hidden flex flex-col lg:flex-row">
         {/* Left side: Course details */}
-        <div className="w-full lg:w-1/2 h-screen lg:h-auto p-4 lg:p-6 overflow-hidde sm:h-screen">
+        <div className="w-full lg:w-1/2 h-screen lg:h-auto p-4 lg:p-6 sm:h-screen">
           <div className="space-y-4 lg:space-y-6 h-full flex flex-col">
             <div className="relative w-full h-1/3 lg:h-auto aspect-video">
               {!imageLoaded && (
