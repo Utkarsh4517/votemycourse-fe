@@ -33,12 +33,14 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     return "text-green-500";
   };
 
-  const handleRatingChange = (newRating: any) => {
+  const handleRatingChange = (newRating: number) => {
     console.log("Selected Rating:", newRating);
     setRating(newRating);
   };
 
-  const handleReccomendationChange = (event: any) => {
+  const handleRecommendationChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setSelectedOption(event.target.value);
   };
 
@@ -92,12 +94,12 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
   const handleReviewSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
+    event.preventDefault();
     const token = localStorage.getItem("token");
     if (!token) {
       router.replace("/");
       return;
     }
-    event.preventDefault();
     if (!user || !course) return;
 
     const courseData = {
@@ -109,7 +111,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
       },
       rating,
       comment: content,
-      recommended: selectedOption === "yes" ? true : false,
+      recommended: selectedOption === "yes",
     };
     console.log("Review Data:", courseData);
 
@@ -158,10 +160,11 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#EE3617] p-4">
-      <div className="bg-white w-full h-[calc(100vh-30px)] pb-8 rounded-3xl shadow-lg overflow-hidden flex flex-col">
-        <div className="p-6 space-y-6 flex-shrink-0">
-          <div className="flex flex-col lg:flex-row gap-6">
-            <div className="relative w-full lg:w-1/2 aspect-video">
+      <div className="bg-white w-full h-[calc(100vh-30px)] rounded-3xl shadow-lg overflow-hidden flex flex-col lg:flex-row">
+        {/* Left side: Course details */}
+        <div className="w-full lg:w-1/2 h-screen lg:h-auto p-4 lg:p-6 overflow-hidde sm:h-screen">
+          <div className="space-y-4 lg:space-y-6 h-full flex flex-col">
+            <div className="relative w-full h-1/3 lg:h-auto aspect-video">
               {!imageLoaded && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <CircularProgress />
@@ -176,37 +179,35 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                 onLoad={() => setImageLoaded(true)}
               />
             </div>
-            <div className="flex flex-col justify-between lg:w-1/2">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-800 mb-4">
-                  {course.courseName}
-                </h1>
-                <p className="bg-gray-100 rounded-lg p-4 text-gray-700 mb-4">
-                  {course.courseDescription}
-                </p>
-                <div className="flex items-center justify-start mb-2">
-                  <span className="text-gray-600 font-semibold">Price:</span>
-                  <span className="mx-1"></span>
-                  <span className="font-bold text-black">${course.price}</span>
-                </div>
-                <p className="text-gray-600 italic">by {course.authorName}</p>
-                <p className="mt-1 text-black">
-                  This is recommended in{" "}
-                  <span
-                    className={`font-bold ${getRecommendationColor(
-                      course.recommendationPercentage
-                    )}`}
-                  >
-                    {course.recommendationPercentage.toFixed(2)}%
-                  </span>
-                  <span className="text-black ml-1">of reviews</span>
-                </p>
+            <div className="flex-1 overflow-y-auto">
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-800 mb-2 lg:mb-4">
+                {course.courseName}
+              </h1>
+              <p className="bg-gray-100 rounded-lg p-3 lg:p-4 text-gray-700 mb-3 lg:mb-4">
+                {course.courseDescription}
+              </p>
+              <div className="flex items-center justify-start mb-2">
+                <span className="text-gray-600 font-semibold">Price:</span>
+                <span className="mx-1"></span>
+                <span className="font-bold text-black">${course.price}</span>
               </div>
+              <p className="text-gray-600 italic">by {course.authorName}</p>
+              <p className="mt-1 text-black">
+                This is recommended in{" "}
+                <span
+                  className={`font-bold ${getRecommendationColor(
+                    course.recommendationPercentage
+                  )}`}
+                >
+                  {course.recommendationPercentage.toFixed(2)}%
+                </span>
+                <span className="text-black ml-1">of reviews</span>
+              </p>
+            </div>
+            <div className="flex flex-col space-y-3 lg:space-y-4">
               <button
-                className={`bg-[#EE3617] px-6 py-3 rounded-full ${sahityaFont} text-white italic inline-flex text-center justify-center hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out hover:border-[#EE3617] border`}
-                onClick={() => window.open(`${course.courseUrl}`, "_blank")}
-
-
+                className={`bg-[#EE3617] px-4 lg:px-6 py-2 lg:py-3 rounded-full ${sahityaFont} text-white italic inline-flex text-center justify-center hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out hover:border-[#EE3617] border`}
+                onClick={() => window.open(course.courseUrl, "_blank")}
               >
                 View Course
               </button>
@@ -217,15 +218,13 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
           </div>
         </div>
 
-        {/* Scrollable Reviews Section */}
-        <div className="flex-grow overflow-hidden">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 px-6">Reviews</h2>
-          <div className="overflow-y-auto h-full px-6 pb-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {reviews.map((review) => (
-                <ReviewCard key={review.reviewId} review={review} />
-              ))}
-            </div>
+        {/* Right side: Reviews */}
+        <div className="w-full lg:w-1/2 p-6 overflow-y-auto">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Reviews</h2>
+          <div className="space-y-4">
+            {reviews.map((review) => (
+              <ReviewCard key={review.reviewId} review={review} />
+            ))}
           </div>
         </div>
 
@@ -246,7 +245,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                 </div>
                 <div>
                   <label
-                    htmlFor="title"
+                    htmlFor="recommendation"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Will you recommend this course to others?
@@ -255,21 +254,20 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                     <label>
                       <input
                         type="radio"
-                        name="option"
+                        name="recommendation"
                         value="yes"
                         checked={selectedOption === "yes"}
-                        onChange={handleReccomendationChange}
+                        onChange={handleRecommendationChange}
                       />
                       Yes
                     </label>
                     <label>
                       <input
                         type="radio"
-                        name="option"
+                        name="recommendation"
                         value="no"
                         checked={selectedOption === "no"}
-                        className=""
-                        onChange={handleReccomendationChange}
+                        onChange={handleRecommendationChange}
                       />
                       No
                     </label>
@@ -286,6 +284,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                     id="content"
                     required
                     rows={4}
+                    value={content}
                     onChange={(e) => setContent(e.target.value)}
                     className="mt-1 block text-black p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   ></textarea>
