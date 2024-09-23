@@ -53,7 +53,7 @@ export default function Profile() {
 
   const handleSubmit = async () => {
     if (!user) return;
-
+  
     const courseData = {
       courseName,
       courseUrl,
@@ -65,7 +65,7 @@ export default function Profile() {
         userId: user.userId,
       },
     };
-
+  
     try {
       const response = await axios.post(
         `${baseUrl}/api/courses/add`,
@@ -80,9 +80,13 @@ export default function Profile() {
         resetForm();
         fetchCourses(user.userId, token);
       }
-    } catch (error) {
+    } catch (error: Response | any) {
       console.error("Error adding course:", error);
-      setToastMessage("Failed to add the course. Please try again.");
+      if (error.response && error.response.data && error.response.data.error) {
+        setToastMessage(error.response.data.error);
+      } else {
+        setToastMessage("Failed to add the course. Please try again.");
+      }
     }
   };
 
