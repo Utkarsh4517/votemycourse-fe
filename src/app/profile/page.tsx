@@ -19,6 +19,7 @@ export default function Profile() {
   const [price, setPrice] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [formVisible, setFormVisible] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const baseUrl = "https://api.votemycourse.com";
   const router = useRouter();
 
@@ -51,9 +52,49 @@ export default function Profile() {
     }
   };
 
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!courseName.trim()) {
+      newErrors.courseName = "Course name is required";
+    }
+
+    if (!authorName.trim()) {
+      newErrors.authorName = "Author name is required";
+    }
+
+    if (!courseUrl.trim()) {
+      newErrors.courseUrl = "Course URL is required";
+    } else if (!/^https?:\/\/.+/.test(courseUrl)) {
+      newErrors.courseUrl = "Invalid URL format";
+    }
+
+    if (!courseThumbnailUrl.trim()) {
+      newErrors.courseThumbnailUrl = "Course thumbnail URL is required";
+    } else if (!/^https?:\/\/.+/.test(courseThumbnailUrl)) {
+      newErrors.courseThumbnailUrl = "Invalid URL format";
+    }
+
+    if (!courseDescription.trim()) {
+      newErrors.courseDescription = "Course description is required";
+    }
+
+    if (price.trim() && isNaN(parseFloat(price))) {
+      newErrors.price = "Price must be a valid number";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
     if (!user) return;
-  
+
+    if (!validateForm()) {
+      setToastMessage("Please correct the errors in the form");
+      return;
+    }
+
     const courseData = {
       courseName,
       courseUrl,
@@ -65,7 +106,7 @@ export default function Profile() {
         userId: user.userId,
       },
     };
-  
+
     try {
       const response = await axios.post(
         `${baseUrl}/api/courses/add`,
@@ -80,7 +121,7 @@ export default function Profile() {
         resetForm();
         fetchCourses(user.userId, token);
       }
-    } catch (error: Response | any) {
+    } catch (error: any) {
       console.error("Error adding course:", error);
       if (error.response && error.response.data && error.response.data.error) {
         setToastMessage(error.response.data.error);
@@ -98,6 +139,7 @@ export default function Profile() {
     setPrice("");
     setAuthorName("");
     setFormVisible(false);
+    setErrors({});
   };
 
   return (
@@ -121,60 +163,101 @@ export default function Profile() {
           <div className="flex justify-center">
             {!formVisible && (
               <button
-              className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer hover:border-[#EE3617] border"
-              onClick={() => setFormVisible(!formVisible)}
-            >
-              <div className={`${sahityaFont} text-sm md:text-base text-white hover:text-[#EE3617]`}>
-                Add a new course
-              </div>
-            </button>
+                className="bg-[#EE3617] px-6 md:px-8 py-2 rounded-full hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out cursor-pointer hover:border-[#EE3617] border"
+                onClick={() => setFormVisible(!formVisible)}
+              >
+                <div className={`${sahityaFont} text-sm md:text-base text-white hover:text-[#EE3617]`}>
+                  Add a new course
+                </div>
+              </button>
             )}
-            
           </div>
 
           {formVisible && (
             <div className="space-y-4 w-full">
-              <input
-                type="text"
-                value={courseName}
-                onChange={(e) => setCourseName(e.target.value)}
-                placeholder="Course Name"
-                className="w-full p-2 border border-gray-300 rounded text-black"
-              />
-              <input
-                type="text"
-                value={authorName}
-                onChange={(e) => setAuthorName(e.target.value)}
-                placeholder="Author Name"
-                className="w-full p-2 border border-gray-300 rounded text-black"
-              />
-              <input
-                type="text"
-                value={courseUrl}
-                onChange={(e) => setCourseUrl(e.target.value)}
-                placeholder="Course URL"
-                className="w-full p-2 border border-gray-300 rounded text-black"
-              />
-              <input
-                type="text"
-                value={courseThumbnailUrl}
-                onChange={(e) => setCourseThumbnailUrl(e.target.value)}
-                placeholder="Course Thumbnail URL"
-                className="w-full p-2 border border-gray-300 rounded text-black"
-              />
-              <textarea
-                value={courseDescription}
-                onChange={(e) => setCourseDescription(e.target.value)}
-                placeholder="Course Description"
-                className="w-full p-2 border border-gray-300 rounded text-black"
-              />
-              <input
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="Price (Keep empty if free)"
-                className="w-full p-2 border border-gray-300 rounded text-black"
-              />
+              <div>
+                <input
+                  type="text"
+                  value={courseName}
+                  onChange={(e) => setCourseName(e.target.value)}
+                  placeholder="Course Name"
+                  className={`w-full p-2 border rounded text-black ${
+                    errors.courseName ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.courseName && (
+                  <p className="text-red-500 text-sm mt-1">{errors.courseName}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                  placeholder="Author Name"
+                  className={`w-full p-2 border rounded text-black ${
+                    errors.authorName ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.authorName && (
+                  <p className="text-red-500 text-sm mt-1">{errors.authorName}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  value={courseUrl}
+                  onChange={(e) => setCourseUrl(e.target.value)}
+                  placeholder="Course URL"
+                  className={`w-full p-2 border rounded text-black ${
+                    errors.courseUrl ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.courseUrl && (
+                  <p className="text-red-500 text-sm mt-1">{errors.courseUrl}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  value={courseThumbnailUrl}
+                  onChange={(e) => setCourseThumbnailUrl(e.target.value)}
+                  placeholder="Course Thumbnail URL"
+                  className={`w-full p-2 border rounded text-black ${
+                    errors.courseThumbnailUrl ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.courseThumbnailUrl && (
+                  <p className="text-red-500 text-sm mt-1">{errors.courseThumbnailUrl}</p>
+                )}
+              </div>
+              <div>
+                <textarea
+                  value={courseDescription}
+                  onChange={(e) => setCourseDescription(e.target.value)}
+                  placeholder="Course Description"
+                  className={`w-full p-2 border rounded text-black ${
+                    errors.courseDescription ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.courseDescription && (
+                  <p className="text-red-500 text-sm mt-1">{errors.courseDescription}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  placeholder="Price (Keep empty if free)"
+                  className={`w-full p-2 border rounded text-black ${
+                    errors.price ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.price && (
+                  <p className="text-red-500 text-sm mt-1">{errors.price}</p>
+                )}
+              </div>
 
               <div className="flex space-x-4 justify-center">
                 <button
