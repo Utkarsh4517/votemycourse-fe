@@ -63,6 +63,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
         }
       );
       setCourse(response.data);
+      console.log("Course fetched:", response.data);
     } catch (error) {
       console.error("Error fetching course:", error);
       setError("Failed to fetch course. Please try again.");

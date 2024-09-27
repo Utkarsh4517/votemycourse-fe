@@ -12,6 +12,8 @@ import User from "./users";
     createdAt: string;
     authorName: string;
     recommendationPercentage: number;
+    upvotes: number;
+    downvotes: number;
   }
 
   export default Course;
