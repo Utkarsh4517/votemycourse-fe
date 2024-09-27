@@ -44,6 +44,36 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     setSelectedOption(event.target.value);
   };
 
+  const handleUpvote = async () => {
+    if (!course || !user) return;
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        `${baseUrl}/api/courses/${course.courseId}/upvote`,
+        { userId: user.userId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setCourse(response.data);
+    } catch (error: Response | any) {
+      console.error("Error upvoting course:", error.response.data);
+    }
+  };
+
+  const handleDownvote = async () => {
+    if (!course || !user) return;
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        `${baseUrl}/api/courses/${course.courseId}/downvote`,
+        { userId: user.userId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setCourse(response.data);
+    } catch (error) {
+      console.error("Error downvoting course:", error);
+    }
+  };
+
   useEffect(() => {
     const courseId = params.id[0];
     fetchCourse(courseId);
@@ -187,11 +217,53 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
               <p className="bg-gray-100 rounded-lg p-3 lg:p-4 text-gray-700 mb-3 lg:mb-4">
                 {course.courseDescription}
               </p>
-              <div className="flex items-center justify-start mb-2">
-                <span className="text-gray-600 font-semibold">Price:</span>
-                <span className="mx-1"></span>
-                <span className="font-bold text-black">${course.price}</span>
+              <div className="flex flex-row w-full justify-between">
+                <div className="flex items-center justify-start mb-2">
+                  <span className="text-gray-600 font-semibold">Price:</span>
+                  <span className="mx-1"></span>
+                  <span className="font-bold text-black">${course.price}</span>
+                </div>
+
+                <div className="mt-2 flex items-center space-x-4">
+                  <button
+                    onClick={handleUpvote}
+                    className="flex items-center space-x-1 text-green-500 hover:text-green-600"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>{course.upvotes}</span>
+                  </button>
+                  <button
+                    onClick={handleDownvote}
+                    className="flex items-center space-x-1 text-red-500 hover:text-red-600"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>{course.downvotes}</span>
+                  </button>
+                </div>
               </div>
+
               <p className="text-gray-600 italic">by {course.authorName}</p>
               <p className="mt-1 text-black">
                 This is recommended in{" "}
