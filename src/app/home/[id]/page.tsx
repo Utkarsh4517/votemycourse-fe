@@ -50,8 +50,11 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     try {
       const response = await axios.post(
         `${baseUrl}/api/courses/${course.courseId}/upvote`,
-        { userId: user.userId },
-        { headers: { Authorization: `Bearer ${token}` } }
+        null,
+        {
+          params: { userId: user.userId },
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setCourse(response.data);
     } catch (error: Response | any) {
@@ -65,8 +68,11 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
     try {
       const response = await axios.post(
         `${baseUrl}/api/courses/${course.courseId}/downvote`,
-        { userId: user.userId },
-        { headers: { Authorization: `Bearer ${token}` } }
+        null,
+        {
+          params: { userId: user.userId },
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setCourse(response.data);
     } catch (error) {
