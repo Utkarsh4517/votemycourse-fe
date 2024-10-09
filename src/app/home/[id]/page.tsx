@@ -12,7 +12,7 @@ import { Review } from "../../types/review";
 import ReviewCard from "../../components/ReviewCard";
 import { sahityaFont } from "../../fonts/fonts";
 
-export default function CoursePage({ params }: { params: { id: string[] } }) {
+export default function CoursePage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [course, setCourse] = useState<Course | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -81,16 +81,20 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
   };
 
   useEffect(() => {
-    const courseId = params.id[0];
+    console.log("Fetching course...");
+    const courseId = params.id;
     fetchCourse(courseId);
     fetchReviews(courseId);
   }, [params.id]);
 
   const fetchCourse = async (courseId: string) => {
+    console.log("fetchCourse started for courseId:", courseId);
     setLoading(true);
     setError(null);
 
     const token = localStorage.getItem("token");
+    console.log("Token available:", !!token);
+    
     try {
       const response = await axios.get(
         `${baseUrl}/api/courses/id/${courseId}`,
@@ -98,12 +102,19 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setCourse(response.data);
-      console.log("Course fetched:", response.data);
-    } catch (error) {
+      console.log("API response:", response);
+      if (response.data) {
+        setCourse(response.data);
+        console.log("Course data set:", response.data);
+      } else {
+        console.log("API returned empty data");
+        setError("No course data received from the server");
+      }
+    } catch (error: any) {
       console.error("Error fetching course:", error);
-      setError("Failed to fetch course. Please try again.");
+      setError(error.response?.data?.message || "Failed to fetch course. Please try again.");
     } finally {
+      console.log("fetchCourse completed");
       setLoading(false);
     }
   };
@@ -123,6 +134,9 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    console.log("Stored user:", storedUser);
+    console.log("Token available:", !!token);
     if (storedUser) {
       setUser(JSON.parse(storedUser) as User);
     }
@@ -186,13 +200,20 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#EE3617] p-4">
-        ERROR
+        <p className="text-white">Error: {error}</p>
       </div>
     );
   }
 
   if (!course) {
-    return null;
+    console.log("Course data is null, loading:", loading, "error:", error);
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#EE3617] p-4">
+        <p className="text-white">
+          {loading ? "Loading course data..." : error || "No course data available"}
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -382,7 +403,7 @@ export default function CoursePage({ params }: { params: { id: string[] } }) {
                   >
                     Submit Review
                   </button>
-                </div>
+                </div>{" "}
               </form>
             </div>
           </div>
