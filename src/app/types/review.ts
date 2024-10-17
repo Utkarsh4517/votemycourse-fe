@@ -9,4 +9,5 @@ export interface Review {
     reviewId: 1;
     rating: number;
     user: User;
+    userName: string;
 }
