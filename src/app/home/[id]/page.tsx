@@ -307,7 +307,13 @@ export default function CoursePage({ params }: { params: { id: string } }) {
             <div className="flex flex-col space-y-3 lg:space-y-4">
               <button
                 className={`bg-[#EE3617] px-4 lg:px-6 py-2 lg:py-3 rounded-full ${sahityaFont} text-white italic inline-flex text-center justify-center hover:bg-white hover:text-[#EE3617] transition-all duration-300 ease-in-out hover:border-[#EE3617] border`}
-                onClick={() => window.open(course.courseUrl, "_blank")}
+                onClick={() => {
+                  let url = course.courseUrl;
+                  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = 'https://' + url;
+                  }
+                  window.open(url, "_blank", "noopener,noreferrer");
+                }}
               >
                 View Course
               </button>

@@ -289,11 +289,24 @@ export default function Profile() {
 
         {/* Right Side - Courses */}
         <div className="md:w-2/3 lg:w-3/4 overflow-y-auto mt-6 md:mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {courses.map((course) => (
-              <CourseCard key={course.courseId} course={course} />
-            ))}
-          </div>
+          {courses.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {courses.map((course) => (
+                <CourseCard key={course.courseId} course={course} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center p-4">
+                <p className={`${playFairDisplayFont} text-xl md:text-2xl lg:text-3xl text-gray-700 mb-4`}>
+                  You have not added any courses on votemycourse.com
+                </p>
+                <p className={`${sahityaFont} text-lg md:text-xl text-gray-600`}>
+                  Try adding a course, but please keep it relevant to the site.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
